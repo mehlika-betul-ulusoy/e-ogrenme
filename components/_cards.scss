@@ -1,0 +1,106 @@
+.card {
+  @include card-base;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+
+  .card-header {
+    padding: $card-spacer-y $card-spacer-x;
+    margin-bottom: 0;
+    background-color: rgba(var(--border-color), 0.03);
+    border-bottom: $card-border-width solid var(--border-color);
+    border-top-left-radius: calc(#{$card-border-radius} - #{$card-border-width});
+    border-top-right-radius: calc(#{$card-border-radius} - #{$card-border-width});
+
+    &:first-child {
+      border-radius: $card-border-radius $card-border-radius 0 0;
+    }
+  }
+
+  .card-body {
+    flex: 1 1 auto;
+    padding: $card-spacer-y $card-spacer-x;
+  }
+
+  .card-title {
+    margin-bottom: map-get($spacers, 2);
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--text-primary-color);
+  }
+
+  .card-subtitle {
+    margin-top: calc(-#{map-get($spacers, 2)} / 2);
+    margin-bottom: 0;
+    font-size: $font-size-sm;
+    color: var(--text-secondary-color);
+  }
+
+  .card-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .card-footer {
+    padding: $card-spacer-y $card-spacer-x;
+    background-color: rgba(var(--border-color), 0.03);
+    border-top: $card-border-width solid var(--border-color);
+    border-bottom-right-radius: calc(#{$card-border-radius} - #{$card-border-width});
+    border-bottom-left-radius: calc(#{$card-border-radius} - #{$card-border-width});
+
+    &:last-child {
+      border-radius: 0 0 $card-border-radius $card-border-radius;
+    }
+  }
+
+  // Card variants
+  &.card-hover {
+    transition: transform $transition-fast, box-shadow $transition-fast;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $box-shadow-lg;
+    }
+  }
+
+  &.card-clickable {
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 1px var(--primary-color);
+    }
+  }
+}
+
+// Card groups
+.card-group {
+  display: flex;
+  flex-direction: column;
+
+  .card {
+    margin-bottom: map-get($spacers, 4);
+  }
+
+  @include respond-above(sm) {
+    flex-direction: row;
+
+    .card {
+      flex: 1 0 0%;
+      margin-bottom: 0;
+
+      &:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+}

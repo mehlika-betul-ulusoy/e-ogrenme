@@ -1,0 +1,304 @@
+.h1, .h2, .h3, .h4, .h5, .h6,
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: map-get($spacers, 2);
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: var(--text-primary-color);
+}
+
+.h1, h1 { font-size: $font-size-4xl; }
+.h2, h2 { font-size: $font-size-3xl; }
+.h3, h3 { font-size: $font-size-2xl; }
+.h4, h4 { font-size: $font-size-xl; }
+.h5, h5 { font-size: $font-size-lg; }
+.h6, h6 { font-size: $font-size-base; }
+
+p {
+  margin-top: 0;
+  margin-bottom: map-get($spacers, 4);
+  color: var(--text-primary-color);
+}
+
+.text-muted {
+  color: var(--text-secondary-color);
+}
+
+.text-primary { color: var(--primary-color); }
+.text-success { color: $success-color; }
+.text-danger { color: $danger-color; }
+.text-warning { color: $warning-color; }
+.text-info { color: $info-color; }
+
+// Font sizes
+.text-xs { font-size: $font-size-xs; }
+.text-sm { font-size: $font-size-sm; }
+.text-base { font-size: $font-size-base; }
+.text-lg { font-size: $font-size-lg; }
+.text-xl { font-size: $font-size-xl; }
+.text-2xl { font-size: $font-size-2xl; }
+
+// Font weights
+.font-light { font-weight: $font-weight-light; }
+.font-normal { font-weight: $font-weight-normal; }
+.font-medium { font-weight: $font-weight-medium; }
+.font-semibold { font-weight: $font-weight-semibold; }
+.font-bold { font-weight: $font-weight-bold; }
+
+// Text alignment
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+// Text transform
+.text-uppercase { text-transform: uppercase; }
+.text-lowercase { text-transform: lowercase; }
+.text-capitalize { text-transform: capitalize; }
+
+// Text utilities
+.text-truncate { @include text-truncate; }
+.text-break { word-wrap: break-word; word-break: break-word; }
+
+// src/styles/base/_utilities.scss
+// Display utilities
+.d-none { display: none !important; }
+.d-inline { display: inline !important; }
+.d-inline-block { display: inline-block !important; }
+.d-block { display: block !important; }
+.d-flex { display: flex !important; }
+.d-inline-flex { display: inline-flex !important; }
+.d-grid { display: grid !important; }
+
+// Flex utilities
+.flex-row { flex-direction: row !important; }
+.flex-column { flex-direction: column !important; }
+.flex-wrap { flex-wrap: wrap !important; }
+.flex-nowrap { flex-wrap: nowrap !important; }
+
+.justify-start { justify-content: flex-start !important; }
+.justify-end { justify-content: flex-end !important; }
+.justify-center { justify-content: center !important; }
+.justify-between { justify-content: space-between !important; }
+.justify-around { justify-content: space-around !important; }
+
+.align-start { align-items: flex-start !important; }
+.align-end { align-items: flex-end !important; }
+.align-center { align-items: center !important; }
+.align-baseline { align-items: baseline !important; }
+.align-stretch { align-items: stretch !important; }
+
+.flex-fill { flex: 1 1 auto !important; }
+.flex-grow-0 { flex-grow: 0 !important; }
+.flex-grow-1 { flex-grow: 1 !important; }
+.flex-shrink-0 { flex-shrink: 0 !important; }
+.flex-shrink-1 { flex-shrink: 1 !important; }
+
+// Position utilities
+.position-static { position: static !important; }
+.position-relative { position: relative !important; }
+.position-absolute { position: absolute !important; }
+.position-fixed { position: fixed !important; }
+.position-sticky { position: sticky !important; }
+
+// Spacing utilities
+@each $prop, $abbrev in (margin: m, padding: p) {
+  @each $size, $length in $spacers {
+    .#{$abbrev}-#{$size} { #{$prop}: $length !important; }
+    .#{$abbrev}t-#{$size},
+    .#{$abbrev}y-#{$size} { #{$prop}-top: $length !important; }
+    .#{$abbrev}r-#{$size},
+    .#{$abbrev}x-#{$size} { #{$prop}-right: $length !important; }
+    .#{$abbrev}b-#{$size},
+    .#{$abbrev}y-#{$size} { #{$prop}-bottom: $length !important; }
+    .#{$abbrev}l-#{$size},
+    .#{$abbrev}x-#{$size} { #{$prop}-left: $length !important; }
+  }
+}
+
+// Width and height utilities
+.w-25 { width: 25% !important; }
+.w-50 { width: 50% !important; }
+.w-75 { width: 75% !important; }
+.w-100 { width: 100% !important; }
+.w-auto { width: auto !important; }
+
+.h-25 { height: 25% !important; }
+.h-50 { height: 50% !important; }
+.h-75 { height: 75% !important; }
+.h-100 { height: 100% !important; }
+.h-auto { height: auto !important; }
+
+.mw-100 { max-width: 100% !important; }
+.mh-100 { max-height: 100% !important; }
+
+// Border utilities
+.border { border: $border-width solid var(--border-color) !important; }
+.border-0 { border: 0 !important; }
+.border-top { border-top: $border-width solid var(--border-color) !important; }
+.border-right { border-right: $border-width solid var(--border-color) !important; }
+.border-bottom { border-bottom: $border-width solid var(--border-color) !important; }
+.border-left { border-left: $border-width solid var(--border-color) !important; }
+
+.rounded { border-radius: $border-radius !important; }
+.rounded-sm { border-radius: $border-radius-sm !important; }
+.rounded-lg { border-radius: $border-radius-lg !important; }
+.rounded-xl { border-radius: $border-radius-xl !important; }
+.rounded-2xl { border-radius: $border-radius-2xl !important; }
+.rounded-full { border-radius: $border-radius-full !important; }
+.rounded-0 { border-radius: 0 !important; }
+
+// Shadow utilities
+.shadow-none { box-shadow: none !important; }
+.shadow-sm { box-shadow: $box-shadow-sm !important; }
+.shadow { box-shadow: $box-shadow !important; }
+.shadow-md { box-shadow: $box-shadow-md !important; }
+.shadow-lg { box-shadow: $box-shadow-lg !important; }
+.shadow-xl { box-shadow: $box-shadow-xl !important; }
+
+// Overflow utilities
+.overflow-auto { overflow: auto !important; }
+.overflow-hidden { overflow: hidden !important; }
+.overflow-visible { overflow: visible !important; }
+.overflow-scroll { overflow: scroll !important; }
+
+// Visibility utilities
+.visible { visibility: visible !important; }
+.invisible { visibility: hidden !important; }
+
+// src/styles/components/_buttons.scss
+.btn {
+  @include button-base;
+
+  // Button sizes
+  &.btn-sm {
+    padding: map-get($spacers, 1) map-get($spacers, 3);
+    font-size: $font-size-sm;
+  }
+
+  &.btn-lg {
+    padding: map-get($spacers, 3) map-get($spacers, 6);
+    font-size: $font-size-lg;
+  }
+
+  // Button variants
+  &.btn-primary {
+    @include button-variant($primary-color);
+  }
+
+  &.btn-secondary {
+    @include button-variant($secondary-color);
+  }
+
+  &.btn-success {
+    @include button-variant($success-color);
+  }
+
+  &.btn-danger {
+    @include button-variant($danger-color);
+  }
+
+  &.btn-warning {
+    @include button-variant($warning-color, $warning-color, #000);
+  }
+
+  &.btn-info {
+    @include button-variant($info-color);
+  }
+
+  &.btn-light {
+    @include button-variant($light-color, $light-color, #000);
+  }
+
+  &.btn-dark {
+    @include button-variant($dark-color);
+  }
+
+  // Outline variants
+  &.btn-outline-primary {
+    @include button-outline-variant($primary-color);
+  }
+
+  &.btn-outline-secondary {
+    @include button-outline-variant($secondary-color);
+  }
+
+  &.btn-outline-success {
+    @include button-outline-variant($success-color);
+  }
+
+  &.btn-outline-danger {
+    @include button-outline-variant($danger-color);
+  }
+
+  // Icon buttons
+  &.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    @include flex-center;
+
+    &.btn-sm {
+      width: 32px;
+      height: 32px;
+    }
+
+    &.btn-lg {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  // Block button
+  &.btn-block {
+    display: block;
+    width: 100%;
+  }
+
+  // Loading state
+  &.btn-loading {
+    position: relative;
+    color: transparent !important;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 16px;
+      height: 16px;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+  }
+}
+
+// Button groups
+.btn-group {
+  display: inline-flex;
+  vertical-align: middle;
+
+  .btn {
+    position: relative;
+    flex: 1 1 auto;
+
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      margin-left: -$border-width;
+    }
+
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      z-index: 1;
+    }
+  }
+}

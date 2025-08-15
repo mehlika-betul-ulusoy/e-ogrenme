@@ -1,0 +1,178 @@
+.form-group {
+  margin-bottom: map-get($spacers, 4);
+}
+
+.form-label {
+  display: inline-block;
+  margin-bottom: map-get($spacers, 2);
+  font-weight: $font-weight-medium;
+  color: var(--text-primary-color);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: map-get($spacers, 2) map-get($spacers, 3);
+  font-family: inherit;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+  color: var(--text-primary-color);
+  background-color: var(--surface-color);
+  background-clip: padding-box;
+  border: $border-width solid var(--border-color);
+  border-radius: $border-radius;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  &::placeholder {
+    color: var(--text-secondary-color);
+    opacity: 1;
+  }
+
+  &:focus {
+    color: var(--text-primary-color);
+    background-color: var(--surface-color);
+    border-color: var(--primary-color);
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.1);
+  }
+
+  &:disabled,
+  &[readonly] {
+    background-color: var(--background-color);
+    opacity: 1;
+  }
+
+  &.is-valid {
+    border-color: $success-color;
+
+    &:focus {
+      border-color: $success-color;
+      box-shadow: 0 0 0 3px rgba($success-color, 0.1);
+    }
+  }
+
+  &.is-invalid {
+    border-color: $danger-color;
+
+    &:focus {
+      border-color: $danger-color;
+      box-shadow: 0 0 0 3px rgba($danger-color, 0.1);
+    }
+  }
+}
+
+.form-control-sm {
+  padding: map-get($spacers, 1) map-get($spacers, 2);
+  font-size: $font-size-sm;
+  border-radius: $border-radius-sm;
+}
+
+.form-control-lg {
+  padding: map-get($spacers, 3) map-get($spacers, 4);
+  font-size: $font-size-lg;
+  border-radius: $border-radius-lg;
+}
+
+// Textarea
+textarea.form-control {
+  resize: vertical;
+}
+
+// Select
+select.form-control {
+  cursor: pointer;
+
+  &:focus::-ms-value {
+    color: var(--text-primary-color);
+    background-color: var(--surface-color);
+  }
+}
+
+// Checkbox and radio
+.form-check {
+  position: relative;
+  display: block;
+  padding-left: map-get($spacers, 5);
+  margin-bottom: map-get($spacers, 2);
+}
+
+.form-check-input {
+  position: absolute;
+  top: 0.25rem;
+  left: 0;
+  z-index: 1;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0;
+  margin-left: 0;
+  cursor: pointer;
+}
+
+.form-check-label {
+  color: var(--text-primary-color);
+  cursor: pointer;
+}
+
+// Input groups
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+
+  .form-control {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-bottom: 0;
+
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+}
+
+.input-group-text {
+  display: flex;
+  align-items: center;
+  padding: map-get($spacers, 2) map-get($spacers, 3);
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+  color: var(--text-secondary-color);
+  text-align: center;
+  white-space: nowrap;
+  background-color: var(--background-color);
+  border: $border-width solid var(--border-color);
+  border-radius: $border-radius;
+}
+
+// Form validation
+.valid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: map-get($spacers, 1);
+  font-size: $font-size-sm;
+  color: $success-color;
+}
+
+.invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: map-get($spacers, 1);
+  font-size: $font-size-sm;
+  color: $danger-color;
+}
+
+.is-valid ~ .valid-feedback,
+.is-invalid ~ .invalid-feedback {
+  display: block;
+}

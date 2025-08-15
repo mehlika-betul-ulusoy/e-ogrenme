@@ -1,0 +1,175 @@
+// Responsive mixins
+@mixin respond-above($breakpoint) {
+  @if map-has-key($grid-breakpoints, $breakpoint) {
+    $breakpoint-value: map-get($grid-breakpoints, $breakpoint);
+    @media (min-width: $breakpoint-value) {
+      @content;
+    }
+  }
+}
+
+@mixin respond-below($breakpoint) {
+  @if map-has-key($grid-breakpoints, $breakpoint) {
+    $breakpoint-value: map-get($grid-breakpoints, $breakpoint);
+    @media (max-width: ($breakpoint-value - 1)) {
+      @content;
+    }
+  }
+}
+
+@mixin respond-between($lower, $upper) {
+  @if map-has-key($grid-breakpoints, $lower) and map-has-key($grid-breakpoints, $upper) {
+    $lower-breakpoint: map-get($grid-breakpoints, $lower);
+    $upper-breakpoint: map-get($grid-breakpoints, $upper);
+    @media (min-width: $lower-breakpoint) and (max-width: ($upper-breakpoint - 1)) {
+      @content;
+    }
+  }
+}
+
+// Flexbox mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Button mixins
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: map-get($spacers, 2) map-get($spacers, 4);
+  font-family: inherit;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-tight;
+  text-decoration: none;
+  border: $border-width solid transparent;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: all $transition-fast;
+  user-select: none;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-variant($background, $border: $background, $color: #fff) {
+  background-color: $background;
+  border-color: $border;
+  color: $color;
+
+  &:hover:not(:disabled) {
+    background-color: darken($background, 10%);
+    border-color: darken($border, 10%);
+  }
+
+  &:active:not(:disabled) {
+    background-color: darken($background, 15%);
+    border-color: darken($border, 15%);
+  }
+}
+
+@mixin button-outline-variant($color) {
+  background-color: transparent;
+  border-color: $color;
+  color: $color;
+
+  &:hover:not(:disabled) {
+    background-color: $color;
+    color: #fff;
+  }
+
+  &:active:not(:disabled) {
+    background-color: darken($color, 10%);
+    border-color: darken($color, 10%);
+  }
+}
+
+// Card mixins
+@mixin card-base {
+  background-color: var(--surface-color);
+  border: $card-border-width solid var(--border-color);
+  border-radius: $card-border-radius;
+  box-shadow: $card-box-shadow;
+  padding: $card-spacer-y $card-spacer-x;
+}
+
+// Animation mixins
+@mixin fade-in($duration: $transition-base) {
+  animation: fadeIn $duration ease-in-out;
+}
+
+@mixin slide-in-up($duration: $transition-base) {
+  animation: slideInUp $duration ease-out;
+}
+
+@mixin bounce-in($duration: $transition-slow) {
+  animation: bounceIn $duration ease-out;
+}
+
+// Text mixins
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-multiline-truncate($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Loading mixins
+@mixin skeleton-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+// Theme mixins
+@mixin theme-colors($theme) {
+  --background-color: #{map-get($theme, background)};
+  --background-secondary: #{lighten(map-get($theme, background), 2%)};
+  --surface-color: #{map-get($theme, surface)};
+  --primary-color: #{map-get($theme, primary)};
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --error-color: #dc3545;
+  --info-color: #17a2b8;
+  --text-color: #{map-get($theme, text-primary)};
+  --text-secondary: #{map-get($theme, text-secondary)};
+  --text-muted: #{lighten(map-get($theme, text-secondary), 10%)};
+  --border-color: #{map-get($theme, border)};
+  --shadow-light: 0 2px 4px #{map-get($theme, shadow)};
+  --shadow-medium: 0 4px 8px #{map-get($theme, shadow)};
+  --shadow-large: 0 8px 16px #{map-get($theme, shadow)};
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-large: 12px;
+  --transition-fast: 0.15s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}

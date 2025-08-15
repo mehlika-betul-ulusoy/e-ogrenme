@@ -1,0 +1,8 @@
+[data-theme="dark"] {
+  @include theme-colors($dark-theme);
+}
+
+// Body'ye de uygula
+body[data-theme="dark"] {
+  @include theme-colors($dark-theme);
+}

@@ -1,0 +1,8 @@
+[data-theme="focus"] {
+  @include theme-colors($focus-theme);
+}
+
+// Body'ye de uygula
+body[data-theme="focus"] {
+  @include theme-colors($focus-theme);
+}

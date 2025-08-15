@@ -1,0 +1,83 @@
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $header-height;
+  background-color: var(--surface-color);
+  border-bottom: $border-width solid var(--border-color);
+  box-shadow: $box-shadow-sm;
+  z-index: $z-index-sticky;
+  @include flex-between;
+  padding: 0 map-get($spacers, 6);
+
+  .header-left {
+    @include flex-center;
+    gap: map-get($spacers, 4);
+
+    .sidebar-toggle {
+      @include flex-center;
+      width: 40px;
+      height: 40px;
+      border-radius: $border-radius;
+      transition: background-color $transition-fast;
+
+      &:hover {
+        background-color: rgba(var(--text-primary-color), 0.05);
+      }
+    }
+
+    .logo {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-bold;
+      color: var(--primary-color);
+    }
+  }
+
+  .header-center {
+    flex: 1;
+    max-width: 600px;
+    margin: 0 map-get($spacers, 6);
+
+    .search-input {
+      width: 100%;
+      border: none;
+      background-color: var(--background-color);
+      border-radius: $border-radius-full;
+      padding: map-get($spacers, 2) map-get($spacers, 4);
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--primary-color);
+      }
+    }
+  }
+
+  .header-right {
+    @include flex-center;
+    gap: map-get($spacers, 2);
+
+    .notification-btn,
+    .profile-btn {
+      position: relative;
+      @include flex-center;
+      width: 40px;
+      height: 40px;
+      border-radius: $border-radius-full;
+      transition: background-color $transition-fast;
+
+      &:hover {
+        background-color: rgba(var(--text-primary-color), 0.05);
+      }
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      background-color: $danger-color;
+      border-radius: 50%;
+    }
+  }
+}
