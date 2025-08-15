@@ -1,0 +1,199 @@
+.instructor-dashboard {
+  padding: 24px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: #2c3e50;
+
+  header {
+    margin-bottom: 24px;
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #34495e;
+        margin: 0;
+      }
+
+      p {
+        font-size: 1.2rem;
+        color: #7f8c8d;
+        margin: 8px 0 0 0;
+      }
+
+      .logout-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #c82333;
+          transform: translateY(-2px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+
+  .course-selector {
+    margin-bottom: 24px;
+    label {
+      font-weight: 600;
+      margin-right: 12px;
+      font-size: 1.1rem;
+    }
+    select {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      min-width: 250px;
+      transition: border-color 0.3s;
+      &:focus {
+        outline: none;
+        border-color: #2980b9;
+      }
+    }
+  }
+
+  .course-detail {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgb(0 0 0 / 0.1);
+
+    h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .add-lesson {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+
+      input[type='text'], input[type='number'] {
+        flex-grow: 1;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+
+        &:focus {
+          outline: none;
+          border-color: #2980b9;
+        }
+      }
+
+      button {
+        background-color: #2980b9;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover:not(:disabled) {
+          background-color: #1f618d;
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .lesson-list {
+      ul {
+        list-style-type: none;
+        padding: 0;
+
+        li {
+          padding: 12px 16px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          margin-bottom: 12px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &.selected {
+            background-color: #2980b9;
+            color: white;
+          }
+
+          &:hover:not(.selected) {
+            background-color: #ecf0f1;
+          }
+        }
+      }
+    }
+
+    .announcements {
+      textarea {
+        width: 100%;
+        min-height: 80px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+        resize: vertical;
+        transition: border-color 0.3s;
+
+        &:focus {
+          border-color: #2980b9;
+          outline: none;
+        }
+      }
+
+      button {
+        margin-top: 12px;
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover:not(:disabled) {
+          background-color: #1e8449;
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+
+      ul {
+        margin-top: 20px;
+        list-style-type: none;
+        padding: 0;
+
+        li {
+          padding: 8px 12px;
+          border-bottom: 1px solid #eee;
+          color: #34495e;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

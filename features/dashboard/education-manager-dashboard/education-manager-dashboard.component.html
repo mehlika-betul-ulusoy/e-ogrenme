@@ -1,0 +1,57 @@
+<div class="instructor-dashboard">
+  <header>
+    <div class="header-content">
+      <div>
+        <h1>Gelişmiş Eğitmen Paneli</h1>
+        <p>Hoş geldiniz, {{ currentUser?.fullName }}</p>
+      </div>
+      <button class="logout-btn" (click)="logout()" title="Çıkış Yap">
+        🚪 Çıkış Yap
+      </button>
+    </div>
+  </header>
+
+  <section class="course-selector">
+    <label for="courseSelect">Kurs Seçin:</label>
+    <select id="courseSelect" #courseSelect (change)="selectCourse(courseSelect.value)">
+      <option value="" disabled selected>-- Kurs Seçin --</option>
+      <option *ngFor="let course of courses" [value]="course.id">{{ course.title }}</option>
+    </select>
+  </section>
+
+  <section *ngIf="selectedCourse" class="course-detail">
+
+    <h2>{{ selectedCourse!.title }}</h2>
+
+    <!-- Ders Ekle -->
+    <div class="add-lesson">
+      <input type="text" [(ngModel)]="newLessonTitle" placeholder="Ders Başlığı" />
+      <input type="number" [(ngModel)]="newLessonDuration" placeholder="Süre (dk)" />
+      <button (click)="addLesson()" [disabled]="!newLessonTitle || newLessonDuration <= 0">Ders Ekle</button>
+    </div>
+
+    <!-- Ders Listesi -->
+    <div class="lesson-list">
+      <h3>Dersler</h3>
+      <ul>
+        <li *ngFor="let lesson of selectedCourse!.lessons" (click)="selectLesson(lesson.id)" [class.selected]="lesson === selectedLesson">
+          {{ lesson.title }} ({{ lesson.durationMinutes }} dk)
+        </li>
+      </ul>
+    </div>
+
+    <!-- Duyurular -->
+    <section class="announcements">
+      <h3>Duyurular</h3>
+      <textarea [(ngModel)]="newAnnouncement" placeholder="Yeni duyuru mesajı"></textarea>
+      <button (click)="postAnnouncement()" [disabled]="!newAnnouncement.trim()">Duyuru Gönder</button>
+
+      <ul>
+        <li *ngFor="let ann of selectedCourse!.announcements">
+          {{ ann.datePosted.toLocaleDateString() }} - {{ ann.message }}
+        </li>
+      </ul>
+    </section>
+
+  </section>
+</div>

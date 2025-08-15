@@ -1,0 +1,31 @@
+<!-- Ortak Header -->
+<app-common-header 
+  [title]="'Gözlemci Paneli'" 
+  [subtitle]="'Eğitim süreçlerini izleyin ve raporlayın'">
+</app-common-header>
+
+<div class="observer-dashboard">
+  <!-- Dashboard Header -->
+  <div class="dashboard-header">
+    <div class="welcome-section">
+      <h1>👁️ Gözlemci Paneli</h1>
+      <p class="welcome-subtitle">Hoş geldiniz</p>
+      <p class="subtitle">Eğitim süreçlerini izleyin ve detaylı raporlar alın</p>
+    </div>
+    
+    <!-- Logout Button -->
+    <div class="dashboard-actions">
+      <button class="logout-btn" (click)="logout()" title="Çıkış Yap">
+        🚪 Çıkış Yap
+      </button>
+    </div>
+  </div>
+
+  <!-- Basit İçerik -->
+  <section class="dashboard-content">
+    <div class="content-message">
+      <h2>Gözlemci Dashboard</h2>
+      <p>Bu sayfada gözlemci işlevleri yer alacak.</p>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,155 @@
+<div class="organization-create-container">
+  <div class="header">
+    <h2>Yeni Eğitim Organizasyonu Oluştur</h2>
+    <p>Şirketiniz veya kurumunuz için özel bir eğitim alanı oluşturun</p>
+  </div>
+
+  <form [formGroup]="organizationForm" (ngSubmit)="onSubmit()" class="organization-form">
+    
+    <!-- Temel Bilgiler -->
+    <div class="form-section">
+      <h3>Temel Bilgiler</h3>
+      
+      <div class="form-group">
+        <label for="name">Organizasyon Adı *</label>
+        <input 
+          type="text" 
+          id="name" 
+          formControlName="name"
+          placeholder="Örn: TechCorp Academy">
+        <div class="error-message" *ngIf="getFieldError('name')">
+          {{ getFieldError('name') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Açıklama *</label>
+        <textarea 
+          id="description" 
+          formControlName="description"
+          placeholder="Organizasyonunuzun amacını ve kapsamını açıklayın..."
+          rows="4">
+        </textarea>
+        <div class="error-message" *ngIf="getFieldError('description')">
+          {{ getFieldError('description') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="domain">Domain (İsteğe Bağlı)</label>
+        <input 
+          type="text" 
+          id="domain" 
+          formControlName="domain"
+          placeholder="sirket.com">
+        <div class="help-text">
+          Domain belirtirseniz, sadece bu domain'den kayıt olan kullanıcılar organizasyonunuza dahil olabilir.
+        </div>
+        <div class="error-message" *ngIf="getFieldError('domain')">
+          {{ getFieldError('domain') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="logo">Logo URL (İsteğe Bağlı)</label>
+        <input 
+          type="url" 
+          id="logo" 
+          formControlName="logo"
+          placeholder="https://sirket.com/logo.png">
+      </div>
+    </div>
+
+    <!-- Ayarlar -->
+    <div class="form-section" formGroupName="settings">
+      <h3>Organizasyon Ayarları</h3>
+      
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="allowSelfRegistration">
+          <span class="checkmark"></span>
+          Kendi kendine kayıt olmaya izin ver
+        </label>
+        <div class="help-text">
+          Bu seçenek aktifse, kullanıcılar davet almadan organizasyonunuza kayıt olabilir.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="defaultUserRole">Varsayılan Kullanıcı Rolü</label>
+        <select id="defaultUserRole" formControlName="defaultUserRole">
+          <option [value]="UserRole.STUDENT">Öğrenci</option>
+          <option [value]="UserRole.INSTRUCTOR">Eğitmen</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="theme">Tema</label>
+        <select id="theme" formControlName="theme">
+          <option *ngFor="let theme of themes" [value]="theme.value">
+            {{ theme.label }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Marka Ayarları -->
+      <div class="subsection" formGroupName="branding">
+        <h4>Marka Ayarları</h4>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="primaryColor">Ana Renk</label>
+            <input type="color" id="primaryColor" formControlName="primaryColor">
+          </div>
+          
+          <div class="form-group">
+            <label for="secondaryColor">İkincil Renk</label>
+            <input type="color" id="secondaryColor" formControlName="secondaryColor">
+          </div>
+        </div>
+      </div>
+
+      <!-- Özellik Ayarları -->
+      <div class="subsection" formGroupName="features">
+        <h4>Özellik Ayarları</h4>
+        
+        <div class="feature-toggles">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="enableGamification">
+            <span class="checkmark"></span>
+            Oyunlaştırma (Puan, rozet sistemi)
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="enableReports">
+            <span class="checkmark"></span>
+            Raporlama ve analitik
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="enableCertificates">
+            <span class="checkmark"></span>
+            Sertifika sistemi
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="enableDiscussions">
+            <span class="checkmark"></span>
+            Tartışma forumları
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Butonları -->
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="loading">
+        İptal
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="loading || organizationForm.invalid">
+        <span *ngIf="loading">Oluşturuluyor...</span>
+        <span *ngIf="!loading">Organizasyon Oluştur</span>
+      </button>
+    </div>
+  </form>
+</div>

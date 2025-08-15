@@ -1,0 +1,1017 @@
+// Öğrenci Dashboard Ana Stilleri
+.dashboard-header {
+  background: linear-gradient(135deg, var(--primary-color), #4dabf7);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-medium);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}
+
+.welcome-section {
+  h1 {
+    font-size: 2.5rem;
+    margin: 0 0 0.5rem 0;
+    font-weight: 700;
+  }
+
+  .welcome-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  .streak-info {
+    margin-top: 1rem;
+    
+    .streak-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+    }
+  }
+}
+
+.dashboard-actions {
+  .logout-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+.study-progress-card {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 1.5rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  min-width: 300px;
+
+  .study-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .goal-status {
+      font-weight: 600;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.9rem;
+
+      &.completed {
+        background: #28a745;
+      }
+      &.almost {
+        background: #ffc107;
+        color: #000;
+      }
+      &.progress {
+        background: #007bff;
+      }
+      &.none {
+        background: rgba(255, 255, 255, 0.3);
+      }
+    }
+  }
+
+  .progress-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .progress-bar {
+      flex: 1;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      overflow: hidden;
+
+      .progress-fill {
+        height: 100%;
+        background: #28a745;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+    }
+
+    .progress-percentage {
+      font-weight: 600;
+      min-width: 40px;
+    }
+  }
+
+  .total-stats {
+    display: flex;
+    gap: 2rem;
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+
+      .stat-label {
+        font-size: 0.8rem;
+        opacity: 0.8;
+      }
+
+      .stat-value {
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+
+// Dashboard Grid Layout
+.dashboard-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+}
+
+.dashboard-section {
+  background: var(--surface-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--border-color);
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--text-color);
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .course-stats {
+      display: flex;
+      gap: 0.5rem;
+
+      .stat-badge {
+        background: var(--primary-color);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+
+        &.completed {
+          background: var(--success-color, #28a745);
+        }
+      }
+    }
+
+    .achievement-count,
+    .unread-count,
+    .progress-indicator {
+      background: var(--background-secondary);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+  }
+}
+
+// Kurs Filtreleri
+.course-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    background: var(--background-color);
+    color: var(--text-secondary);
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+
+    &:hover {
+      background: var(--background-secondary);
+    }
+
+    &.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+  }
+}
+
+// Kurs Kartları
+.course-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.course-card {
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+  }
+
+  &.completed {
+    opacity: 0.8;
+    border-color: var(--success-color, #28a745);
+  }
+
+  .course-header {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .course-icon {
+      font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 60px;
+      height: 60px;
+      background: var(--background-secondary);
+      border-radius: 12px;
+    }
+
+    .course-meta {
+      flex: 1;
+
+      .course-title {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.2rem;
+        color: var(--text-color);
+      }
+
+      .course-category {
+        margin: 0 0 0.5rem 0;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .difficulty-badge {
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 500;
+
+        &.difficulty-başlangıç {
+          background: #e3f2fd;
+          color: #1976d2;
+        }
+        &.difficulty-orta {
+          background: #fff3e0;
+          color: #f57c00;
+        }
+        &.difficulty-ileri {
+          background: #fce4ec;
+          color: #c2185b;
+        }
+      }
+    }
+  }
+
+  .course-progress {
+    margin-bottom: 1rem;
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+
+      .progress-text {
+        font-weight: 600;
+        color: var(--text-color);
+      }
+
+      .last-access {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--background-secondary);
+      border-radius: 3px;
+      overflow: hidden;
+
+      .progress-fill {
+        height: 100%;
+        background: var(--primary-color);
+        border-radius: 3px;
+        transition: width 0.3s ease;
+      }
+    }
+  }
+
+  .course-details {
+    margin-bottom: 1rem;
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+
+      .detail-label {
+        color: var(--text-secondary);
+      }
+
+      .detail-value {
+        color: var(--text-color);
+        font-weight: 500;
+      }
+    }
+  }
+
+  .course-actions {
+    display: flex;
+    gap: 0.5rem;
+
+    .btn {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+
+      &.btn-primary {
+        background: var(--primary-color);
+        color: white;
+
+        &:hover {
+          background: var(--primary-color-dark, #0056b3);
+        }
+      }
+
+      &.btn-outline {
+        background: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+
+        &:hover {
+          background: var(--primary-color);
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+// Öğrenme Yolu
+.learning-path-section {
+  grid-column: span 1;
+
+  .learning-path {
+    .path-progress {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+
+      .path-progress-bar {
+        flex: 1;
+        height: 8px;
+        background: var(--background-secondary);
+        border-radius: 4px;
+        overflow: hidden;
+
+        .path-progress-fill {
+          height: 100%;
+          background: var(--primary-color);
+          border-radius: 4px;
+          transition: width 0.3s ease;
+        }
+      }
+
+      .path-percentage {
+        font-weight: 600;
+        color: var(--primary-color);
+      }
+    }
+
+    .learning-steps {
+      .step-item {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+
+        &.completed {
+          background: rgba(40, 167, 69, 0.1);
+          border-left: 3px solid #28a745;
+        }
+
+        &.current {
+          background: rgba(0, 123, 255, 0.1);
+          border-left: 3px solid var(--primary-color);
+        }
+
+        .step-indicator {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 600;
+          color: white;
+          flex-shrink: 0;
+
+          .step-number {
+            font-size: 0.9rem;
+          }
+
+          &:has(.step-number) {
+            background: var(--background-secondary);
+            color: var(--text-secondary);
+          }
+
+          &:has(.icon-check) {
+            background: #28a745;
+          }
+
+          &:has(.icon-clock) {
+            background: var(--primary-color);
+          }
+        }
+
+        .step-content {
+          flex: 1;
+
+          .step-title {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            color: var(--text-color);
+          }
+
+          .step-description {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+          }
+        }
+
+        .step-actions {
+          .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+
+            &:hover {
+              background: var(--primary-color-dark, #0056b3);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Önerilen Dersler
+.recommendations-section {
+  .recommendations-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .recommendation-card {
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      box-shadow: var(--shadow-light);
+    }
+
+    .recommendation-header {
+      margin-bottom: 0.8rem;
+
+      .recommendation-title {
+        margin: 0 0 0.3rem 0;
+        font-size: 1.1rem;
+        color: var(--text-color);
+      }
+
+      .recommendation-reason {
+        background: var(--primary-color);
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+      }
+    }
+
+    .recommendation-description {
+      margin: 0 0 0.8rem 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .recommendation-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .recommendation-actions {
+      display: flex;
+      gap: 0.5rem;
+
+      .btn {
+        flex: 1;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+
+        &.btn-primary {
+          background: var(--primary-color);
+          color: white;
+
+          &:hover {
+            background: var(--primary-color-dark, #0056b3);
+          }
+        }
+
+        &.btn-ghost {
+          background: transparent;
+          color: var(--text-secondary);
+
+          &:hover {
+            background: var(--background-secondary);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Başarılar Bölümü
+.achievements-section {
+  grid-column: span 1;
+
+  .achievements-container {
+    .badges-section,
+    .certificates-section {
+      margin-bottom: 2rem;
+
+      h3 {
+        margin: 0 0 1rem 0;
+        font-size: 1.2rem;
+        color: var(--text-color);
+      }
+    }
+
+    .badges-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .badge-card {
+      background: var(--background-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      &.badge-common {
+        border-color: #6c757d;
+      }
+      &.badge-rare {
+        border-color: #007bff;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+      }
+      &.badge-epic {
+        border-color: #6f42c1;
+        box-shadow: 0 0 10px rgba(111, 66, 193, 0.2);
+      }
+      &.badge-legendary {
+        border-color: #ffc107;
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+      }
+
+      .badge-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .badge-name {
+        margin: 0 0 0.5rem 0;
+        font-size: 1rem;
+        color: var(--text-color);
+      }
+
+      .badge-description {
+        margin: 0 0 0.5rem 0;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        line-height: 1.3;
+      }
+
+      .badge-date {
+        display: block;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        margin-bottom: 0.3rem;
+      }
+
+      .badge-rarity {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        text-transform: capitalize;
+
+        &:contains("common") {
+          background: #6c757d;
+          color: white;
+        }
+        &:contains("rare") {
+          background: #007bff;
+          color: white;
+        }
+        &:contains("epic") {
+          background: #6f42c1;
+          color: white;
+        }
+        &:contains("legendary") {
+          background: #ffc107;
+          color: #000;
+        }
+      }
+    }
+
+    .certificates-list {
+      .certificate-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: var(--background-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+
+        .certificate-info {
+          .certificate-name {
+            margin: 0 0 0.3rem 0;
+            font-size: 1.1rem;
+            color: var(--text-color);
+          }
+
+          .certificate-course {
+            margin: 0 0 0.3rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+          }
+
+          .certificate-date,
+          .certificate-score {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-right: 1rem;
+          }
+        }
+
+        .certificate-actions {
+          .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            &:hover {
+              background: var(--primary-color-dark, #0056b3);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Bildirimler
+.notifications-section {
+  .notification-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+
+    .tab-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: var(--text-color);
+      }
+
+      &.active {
+        color: var(--primary-color);
+        border-bottom-color: var(--primary-color);
+      }
+    }
+  }
+
+  .notifications-list {
+    max-height: 400px;
+    overflow-y: auto;
+
+    .notification-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: var(--background-secondary);
+      }
+
+      &.unread {
+        background: rgba(0, 123, 255, 0.05);
+        border-left: 3px solid var(--primary-color);
+      }
+
+      &.notification-achievement {
+        border-left-color: #28a745;
+      }
+
+      &.notification-message {
+        border-left-color: #ffc107;
+      }
+
+      &.notification-reminder {
+        border-left-color: #dc3545;
+      }
+
+      .notification-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+
+      .notification-content {
+        flex: 1;
+
+        .notification-title {
+          margin: 0 0 0.3rem 0;
+          font-size: 1rem;
+          color: var(--text-color);
+        }
+
+        .notification-message {
+          margin: 0 0 0.3rem 0;
+          color: var(--text-secondary);
+          font-size: 0.9rem;
+          line-height: 1.4;
+        }
+
+        .notification-time {
+          font-size: 0.8rem;
+          color: var(--text-muted);
+        }
+      }
+
+      .notification-actions {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+
+        .btn-icon {
+          background: transparent;
+          border: none;
+          padding: 0.3rem;
+          border-radius: 4px;
+          cursor: pointer;
+          color: var(--text-secondary);
+
+          &:hover {
+            background: var(--background-secondary);
+            color: var(--text-color);
+          }
+        }
+
+        .priority-indicator {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+
+          &.priority-high {
+            background: #dc3545;
+          }
+          &.priority-medium {
+            background: #ffc107;
+          }
+          &.priority-low {
+            background: #28a745;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Floating Action Buttons
+.floating-actions {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 1000;
+
+  .fab {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-medium);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &.primary {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    &.secondary {
+      background: var(--background-color);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+    }
+
+    i {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .course-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .badges-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .floating-actions {
+    bottom: 1rem;
+    right: 1rem;
+
+    .fab {
+      width: 48px;
+      height: 48px;
+    }
+  }
+}
+
+// Dark Theme Support
+[data-theme="dark"] {
+  .study-progress-card {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .course-card,
+  .recommendation-card,
+  .badge-card,
+  .certificate-item {
+    background: var(--surface-color);
+  }
+
+  .notification-item.unread {
+    background: rgba(79, 172, 254, 0.1);
+  }
+}
+
+// Focus Theme Support
+[data-theme="focus"] {
+  .dashboard-header {
+    background: linear-gradient(135deg, #5c85d6, #4dabf7);
+  }
+
+  .course-card,
+  .recommendation-card {
+    &:hover {
+      box-shadow: 0 4px 12px rgba(92, 133, 214, 0.15);
+    }
+  }
+}

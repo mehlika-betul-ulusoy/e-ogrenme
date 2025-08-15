@@ -1,0 +1,490 @@
+// Register Component Styles
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  padding: 1rem;
+}
+
+.register-container {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.register-header {
+  padding: 2rem 2rem 1rem;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 1rem 1rem 0 0;
+  position: relative;
+
+  .close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .logo h2 {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  h1 {
+    margin: 0 0 0.5rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 1rem;
+  }
+}
+
+.register-form {
+  padding: 2rem;
+}
+
+.error-message {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  border: 1px solid #feb2b2;
+}
+
+.form-section {
+  margin-bottom: 2rem;
+  
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 0.875rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f7fafc;
+
+    &:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    &.error {
+      border-color: #e53e3e;
+      background: #fed7d7;
+    }
+
+    &::placeholder {
+      color: #a0aec0;
+    }
+  }
+}
+
+.input-with-button {
+  display: flex;
+  gap: 0.5rem;
+
+  input {
+    flex: 1;
+  }
+
+  .check-btn {
+    padding: 0.75rem 1rem;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.3s ease;
+
+    &:hover:not(:disabled) {
+      background: #5a67d8;
+    }
+
+    &:disabled {
+      background: #a0aec0;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.field-error {
+  color: #e53e3e;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.help-text {
+  color: #718096;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.checkbox-group {
+  margin-bottom: 1rem;
+
+  .checkbox-container {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: #4a5568;
+    gap: 0.5rem;
+
+    input[type="checkbox"] {
+      margin-top: 0.125rem;
+    }
+
+    .checkbox-text {
+      line-height: 1.5;
+
+      a {
+        color: #667eea;
+        text-decoration: underline;
+
+        &:hover {
+          color: #5a67d8;
+        }
+      }
+    }
+  }
+}
+
+.register-btn {
+  width: 100%;
+  padding: 0.875rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.social-divider {
+  margin: 1.5rem 0 1rem;
+  text-align: center;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e2e8f0;
+  }
+
+  span {
+    background: white;
+    padding: 0 1rem;
+    color: #a0aec0;
+    font-size: 0.875rem;
+  }
+}
+
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.5rem;
+    background: white;
+    color: #4a5568;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #cbd5e0;
+      background: #f7fafc;
+    }
+
+    img {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .google-icon,
+    .microsoft-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &.google:hover {
+      border-color: #ea4335;
+      background: #fef5f5;
+    }
+
+    &.microsoft:hover {
+      border-color: #0078d4;
+      background: #f0f8ff;
+    }
+  }
+}
+
+.login-link {
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+
+  p {
+    margin: 0;
+    color: #4a5568;
+    font-size: 0.875rem;
+  }
+
+  .link-button {
+    background: none;
+    border: none;
+    color: #667eea;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      color: #5a67d8;
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .register-container {
+    max-width: none;
+    margin: 0.5rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .input-with-button {
+    flex-direction: column;
+
+    .check-btn {
+      align-self: flex-start;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .register-header {
+    padding: 1.5rem 1.5rem 1rem;
+  }
+
+  .register-form {
+    padding: 1.5rem;
+  }
+
+  .social-buttons {
+    .social-btn {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Role Selection Styles
+.role-selection {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  .role-option {
+    position: relative;
+    cursor: pointer;
+
+    &.selected .role-card {
+      border-color: #667eea;
+      background: #f0f8ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+
+      .role-header h4 {
+        color: #667eea;
+      }
+    }
+
+    .role-card {
+      display: block;
+      padding: 1.5rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      background: white;
+      width: 100%;
+      box-sizing: border-box;
+
+      &:hover {
+        border-color: #cbd5e0;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .role-header {
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h4 {
+          margin: 0;
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: #2d3748;
+          transition: color 0.3s ease;
+        }
+
+        .role-indicator {
+          width: 24px;
+          height: 24px;
+          background: #667eea;
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.875rem;
+          font-weight: bold;
+        }
+      }
+
+      .role-description {
+        margin: 0;
+        font-size: 0.875rem;
+        color: #718096;
+        line-height: 1.4;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .role-selection {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .role-selection {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

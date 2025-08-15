@@ -1,0 +1,207 @@
+<div class="instructor-dashboard">
+  <div class="dashboard-header">
+    <h1>👨‍🏫 Eğitmen Paneli</h1>
+    <button class="logout-btn" (click)="logout()" title="Çıkış Yap">
+      🚪 Çıkış Yap
+    </button>
+  </div>
+
+  <!-- Kurslar ve Ders Yönetimi -->
+  <section class="courses-section">
+    <h2>Kurslarım</h2>
+    <div *ngFor="let course of courses" class="course-card">
+      <h3>{{ course.title }}</h3>
+      <p>{{ course.description }}</p>
+      <button (click)="addLesson(course.id)" class="btn btn-primary">Yeni Ders Ekle</button>
+
+      <div class="lessons">
+        <h4>Dersler</h4>
+        <div *ngFor="let lesson of course.lessons" class="lesson-card">
+          <div class="lesson-header">
+            <h5>{{ lesson.title }} <small>({{ lesson.duration }})</small></h5>
+            <button (click)="addSubLesson(course.id, lesson.id)" class="btn btn-sm btn-secondary">Alt Ders Ekle</button>
+            <button (click)="addQuiz(course.id, lesson.id)" class="btn btn-sm btn-info">Quiz Ekle</button>
+          </div>
+
+          <!-- Alt Dersler -->
+          <ul class="sublessons">
+            <li *ngFor="let sub of lesson.subLessons">
+              <strong>{{ sub.title }}</strong> — <em>{{ sub.duration }}</em>
+            </li>
+          </ul>
+
+          <!-- Quizler -->
+          <div class="quizzes">
+            <h6>Quizler</h6>
+            <ul>
+              <li *ngFor="let quiz of lesson.quizzes">
+                {{ quiz.title }} (Max Puan: {{ quiz.maxScore }})
+                <ul>
+                  <li *ngFor="let res of quiz.results">
+                    {{ res.studentName }} — {{ res.score }} puan — {{ res.date.toLocaleDateString() }}
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Dosya ve Medya -->
+          <div class="files">
+            <h6>Dosya & Medya</h6>
+            <ul>
+              <li *ngFor="let file of lesson.files">
+                <a href="{{ file.url }}" target="_blank">{{ file.name }}</a> ({{ file.type }})
+              </li>
+            </ul>
+
+            <div class="file-add-form">
+              <input #fileNameInput type="text" placeholder="Dosya adı" />
+              <select #fileTypeSelect>
+                <option value="pdf">PDF</option>
+                <option value="video">Video</option>
+                <option value="image">Resim</option>
+                <option value="other">Diğer</option>
+              </select>
+              <button (click)="
+                addFileFromForm(course.id, lesson.id, fileNameInput.value, fileTypeSelect.value);
+                fileNameInput.value='';" class="btn btn-sm btn-success">
+                Ekle
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bildirim ve Duyuru Gönderme -->
+  <section class="notifications-section">
+    <h2>📢 Öğrencilere Bildirim Gönder</h2>
+    
+    <div class="notification-form">
+      <form [formGroup]="notificationForm" (ngSubmit)="sendNotification()">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="notificationType">Bildirim Türü:</label>
+            <select 
+              id="notificationType" 
+              formControlName="type" 
+              (change)="onNotificationTypeChange()"
+              class="form-control">
+              <option value="announcement">📢 Duyuru</option>
+              <option value="reminder">⏰ Hatırlatma</option>
+              <option value="assignment">📝 Ödev</option>
+              <option value="general">📋 Genel Bilgi</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="notificationCourse">Kurs (Opsiyonel):</label>
+            <select id="notificationCourse" formControlName="courseId" class="form-control">
+              <option value="">Tüm Kurslar</option>
+              <option *ngFor="let course of courses" [value]="course.id">{{course.title}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="notificationTitle">Başlık:</label>
+          <input 
+            id="notificationTitle" 
+            type="text" 
+            formControlName="title" 
+            class="form-control"
+            placeholder="Bildirim başlığı">
+        </div>
+
+        <div class="form-group">
+          <label for="notificationMessage">Mesaj:</label>
+          <textarea 
+            id="notificationMessage" 
+            formControlName="message" 
+            class="form-control"
+            rows="4"
+            placeholder="Bildirim içeriği"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="targetAll">
+            Tüm öğrencilere gönder
+          </label>
+        </div>
+
+        <div class="student-selection" *ngIf="!notificationForm.get('targetAll')?.value">
+          <h4>Öğrenci Seçimi:</h4>
+          <div class="selection-buttons">
+            <button type="button" (click)="selectAllStudents()" class="btn btn-sm btn-secondary">Tümünü Seç</button>
+            <button type="button" (click)="clearStudentSelection()" class="btn btn-sm btn-outline">Seçimi Temizle</button>
+          </div>
+          
+          <div class="students-list">
+            <div *ngFor="let student of getStudentsByCourse(0)" class="student-checkbox">
+              <label>
+                <input 
+                  type="checkbox" 
+                  [checked]="selectedStudents.includes(student.id)"
+                  (change)="toggleStudentSelection(student.id)">
+                {{student.name}} ({{student.email}})
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+            [disabled]="notificationForm.invalid || (selectedStudents.length === 0 && !notificationForm.get('targetAll')?.value)">
+            📤 Bildirim Gönder
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Gönderilen Bildirimler -->
+    <div class="sent-notifications" *ngIf="notifications.length > 0">
+      <h3>Gönderilen Bildirimler</h3>
+      <div class="notification-list">
+        <div *ngFor="let notification of notifications" class="notification-item">
+          <div class="notification-header">
+            <span class="notification-icon">{{getNotificationTypeIcon(notification.type)}}</span>
+            <strong>{{notification.title}}</strong>
+            <span class="notification-date">{{notification.sentDate | date:'dd/MM/yyyy HH:mm'}}</span>
+            <button (click)="deleteNotification(notification.id)" class="btn btn-sm btn-danger">🗑️</button>
+          </div>
+          <p class="notification-message">{{notification.message}}</p>
+          <div class="notification-info">
+            <span class="student-count">{{notification.targetStudents.length}} öğrenciye gönderildi</span>
+            <span class="notification-type">{{notification.type}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Yorum & Soru-Cevap -->
+  <section class="comments-section">
+    <h2>Soru-Cevap & Yorumlar</h2>
+    <ul class="comment-list">
+      <li *ngFor="let comment of comments" class="comment-item">
+        <p><strong>{{ comment.studentName }}</strong> <em>({{ comment.dateAsked.toLocaleDateString() }})</em></p>
+        <p>{{ comment.question }}</p>
+
+        <div *ngIf="comment.reply" class="reply">
+          <p><strong>Yanıt:</strong> {{ comment.reply }} <em>({{ comment.replyDate?.toLocaleDateString() }})</em></p>
+        </div>
+
+        <textarea
+          #replyInput
+          placeholder="Yanıtınızı yazın..."
+          rows="3"
+        ></textarea>
+        <button (click)="replyToComment(comment.id, replyInput.value); replyInput.value=''" class="btn btn-sm btn-warning">Yanıt Gönder</button>
+      </li>
+    </ul>
+  </section>
+</div>

@@ -1,0 +1,308 @@
+<!-- Ortak Header -->
+<app-common-header 
+  [title]="'Öğrenci Ana Sayfası'" 
+  [subtitle]="'Bugün öğrenmeye devam edelim! 🎓'">
+</app-common-header>
+
+<!-- Öğrenci Dashboard Header -->
+<div class="dashboard-header">
+  <div class="welcome-section">
+    <h1>Hoş geldin, {{currentUser?.firstName}}!</h1>
+    <p class="welcome-subtitle">Bugün öğrenmeye devam edelim 🎓</p>
+    <div class="streak-info">
+      <span class="streak-badge">🔥 {{currentStreak}} gün streak</span>
+    </div>
+  </div>
+  
+  <!-- Günlük Hedef ve Çalışma Süresi -->
+  <div class="study-progress-card">
+    <div class="study-header">
+      <h3>⏱️ Bugünkü Çalışma Sürem</h3>
+      <span class="goal-status" [class]="getDailyGoalStatus()">
+        {{formatStudyTime(getTodayStudyTime())}} / {{formatStudyTime(studyGoals.dailyTarget)}}
+      </span>
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getDailyProgressPercentage()"></div>
+      </div>
+      <span class="progress-percentage">{{getDailyProgressPercentage() | number:'1.0-0'}}%</span>
+    </div>
+    <div class="total-stats">
+      <div class="stat-item">
+        <span class="stat-label">Toplam</span>
+        <span class="stat-value">{{formatStudyTime(totalStudyTime)}}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Bu Hafta</span>
+        <span class="stat-value">{{formatStudyTime(getWeeklyStudyTime())}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ana İçerik Grid -->
+<div class="dashboard-grid">
+  
+  <!-- Atanmış Kurslarım Bölümü -->
+  <section class="dashboard-section course-section">
+    <div class="section-header">
+      <h2>📌 Atanmış Kurslarım</h2>
+      <div class="course-stats">
+        <span class="stat-badge active">{{getActiveAssignedCoursesCount()}} Aktif</span>
+        <span class="stat-badge completed">{{getCompletedAssignedCoursesCount()}} Tamamlanan</span>
+      </div>
+    </div>
+    
+    <!-- Filtre Seçenekleri -->
+    <div class="course-filters">
+      <button class="filter-btn" 
+              [class.active]="isFilterActive('all')" 
+              (click)="setFilter('all')">
+        Tümü ({{assignedCourses.length}})
+      </button>
+      <button class="filter-btn" 
+              [class.active]="isFilterActive('active')" 
+              (click)="setFilter('active')">
+        Aktif ({{getActiveAssignedCoursesCount()}})
+      </button>
+      <button class="filter-btn" 
+              [class.active]="isFilterActive('completed')" 
+              (click)="setFilter('completed')">
+        Tamamlanan ({{getCompletedAssignedCoursesCount()}})
+      </button>
+      <button class="filter-btn" 
+              [class.active]="isFilterActive('deadline')" 
+              (click)="setFilter('deadline')">
+        Yaklaşan Tarihler
+      </button>
+    </div>
+
+    <!-- Kurs Kartları -->
+    <div class="course-grid">
+      <div class="course-card" 
+           *ngFor="let course of getFilteredCourses()" 
+           [class.completed]="course.isCompleted">
+        <div class="course-header">
+          <div class="course-icon">{{course.icon}}</div>
+          <div class="course-meta">
+            <h3 class="course-title">{{course.title}}</h3>
+            <p class="course-category">{{course.category}}</p>
+            <span class="difficulty-badge" [class]="'difficulty-' + course.difficulty.toLowerCase()">
+              {{course.difficulty}}
+            </span>
+          </div>
+        </div>
+        
+        <div class="course-progress">
+          <div class="progress-info">
+            <span class="progress-text">İlerleme: {{course.progress}}%</span>
+            <span class="last-access">Son erişim: {{course.lastAccess}}</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="course.progress"></div>
+          </div>
+        </div>
+
+        <div class="course-details">
+          <div class="detail-item">
+            <span class="detail-label">Atayan:</span>
+            <span class="detail-value">{{course.assignedBy}}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Süre:</span>
+            <span class="detail-value">{{course.duration}}</span>
+          </div>
+          <div class="detail-item" *ngIf="course.deadline">
+            <span class="detail-label">Bitiş:</span>
+            <span class="detail-value">{{course.deadline}}</span>
+          </div>
+        </div>
+
+        <div class="course-actions">
+          <button class="btn btn-primary" 
+                  *ngIf="!course.isCompleted"
+                  (click)="startCourse(course.id)">
+            <i class="icon-play"></i> Devam Et
+          </button>
+          <button class="btn btn-outline" 
+                  (click)="viewCourseDetails(course.id)">
+            <i class="icon-eye"></i> Detaylar
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Öğrenme Yolum -->
+  <section class="dashboard-section learning-path-section">
+    <div class="section-header">
+      <h2>🧭 Öğrenme Yolum</h2>
+      <span class="progress-indicator">
+        {{getCompletedStepsCount()}} / {{learningPath.length}} tamamlandı
+      </span>
+    </div>
+    
+    <div class="learning-path">
+      <div class="path-progress">
+        <div class="path-progress-bar">
+          <div class="path-progress-fill" [style.width.%]="getLearningPathProgress()"></div>
+        </div>
+        <span class="path-percentage">{{getLearningPathProgress() | number:'1.0-0'}}%</span>
+      </div>
+      
+      <div class="learning-steps">
+        <div class="step-item" 
+             *ngFor="let step of learningPath; let i = index"
+             [class.completed]="step.completed"
+             [class.current]="step.current">
+          <div class="step-indicator">
+            <span class="step-number" *ngIf="!step.completed && !step.current">{{i + 1}}</span>
+            <i class="step-icon" 
+               [class]="step.completed ? 'icon-check' : (step.current ? 'icon-clock' : '')"></i>
+          </div>
+          <div class="step-content">
+            <h4 class="step-title">{{step.title}}</h4>
+            <p class="step-description">{{step.description}}</p>
+          </div>
+          <div class="step-actions" *ngIf="step.current">
+            <button class="btn btn-sm btn-primary" (click)="moveToNextStep()">
+              Tamamla
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Önerilen Dersler -->
+  <section class="dashboard-section recommendations-section">
+    <div class="section-header">
+      <h2>🧠 Önerilen Dersler</h2>
+      <span class="subtitle">Performansınıza ve ilgi alanlarınıza göre</span>
+    </div>
+    
+    <div class="recommendations-grid">
+      <div class="recommendation-card" *ngFor="let course of recommendedCourses">
+        <div class="recommendation-header">
+          <h3 class="recommendation-title">{{course.title}}</h3>
+          <span class="recommendation-reason">{{course.reason}}</span>
+        </div>
+        <p class="recommendation-description">{{course.description}}</p>
+        <div class="recommendation-meta">
+          <span class="duration">{{course.duration}}</span>
+          <span class="difficulty">{{course.difficulty}}</span>
+        </div>
+        <div class="recommendation-actions">
+          <button class="btn btn-primary" (click)="enrollRecommendedCourse(course)">
+            Kursa Kayıt Ol
+          </button>
+          <button class="btn btn-ghost" (click)="dismissRecommendation(course)">
+            Kapat
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rozetlerim ve Sertifikalarım -->
+  <section class="dashboard-section achievements-section">
+    <div class="section-header">
+      <h2>🏅 Rozetlerim ve Sertifikalarım</h2>
+      <span class="achievement-count">{{totalBadges}} rozet, {{certificates.length}} sertifika</span>
+    </div>
+    
+    <div class="achievements-container">
+      <!-- Rozetler -->
+      <div class="badges-section">
+        <h3>Son Kazanılan Rozetler</h3>
+        <div class="badges-grid">
+          <div class="badge-card" 
+               *ngFor="let badge of recentBadges"
+               [class]="getBadgeRarityClass(badge.rarity)">
+            <div class="badge-icon">{{badge.icon}}</div>
+            <h4 class="badge-name">{{badge.name}}</h4>
+            <p class="badge-description">{{badge.description}}</p>
+            <span class="badge-date">{{badge.earnedDate}}</span>
+            <span class="badge-rarity">{{badge.rarity}}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sertifikalar -->
+      <div class="certificates-section">
+        <h3>Sertifikalarım</h3>
+        <div class="certificates-list">
+          <div class="certificate-item" *ngFor="let certificate of certificates">
+            <div class="certificate-info">
+              <h4 class="certificate-name">{{certificate.name}}</h4>
+              <p class="certificate-course">{{certificate.courseName}}</p>
+              <span class="certificate-date">{{certificate.issueDate}}</span>
+              <span class="certificate-score">Puan: {{certificate.score}}/100</span>
+            </div>
+            <div class="certificate-actions">
+              <button class="btn btn-outline" (click)="downloadCertificate(certificate)">
+                <i class="icon-download"></i> İndir
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Duyurular ve Bildirimler -->
+  <section class="dashboard-section notifications-section">
+    <div class="section-header">
+      <h2>📢 Duyurular ve Bildirimler</h2>
+      <span class="unread-count" *ngIf="getUnreadNotificationCount() > 0">
+        {{getUnreadNotificationCount()}} okunmamış
+      </span>
+    </div>
+    
+    <div class="notifications-container">
+      <!-- Notification Tabs -->
+      <div class="notification-tabs">
+        <button class="tab-btn active">Tümü</button>
+        <button class="tab-btn">Duyurular</button>
+        <button class="tab-btn">Başarılar</button>
+        <button class="tab-btn">Mesajlar</button>
+      </div>
+
+      <!-- Notification List -->
+      <div class="notifications-list">
+        <div class="notification-item" 
+             *ngFor="let notification of notifications"
+             [class.unread]="!notification.read"
+             [class]="'notification-' + notification.type">
+          <div class="notification-icon">{{notification.icon}}</div>
+          <div class="notification-content">
+            <h4 class="notification-title">{{notification.title}}</h4>
+            <p class="notification-message">{{notification.message}}</p>
+            <span class="notification-time">{{notification.time}}</span>
+          </div>
+          <div class="notification-actions">
+            <button class="btn-icon" 
+                    *ngIf="!notification.read"
+                    (click)="markNotificationAsRead(notification.id)"
+                    title="Okundu olarak işaretle">
+              <i class="icon-check"></i>
+            </button>
+            <span class="priority-indicator" [class]="'priority-' + notification.priority"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Floating Action Button -->
+<div class="floating-actions">
+  <button class="fab primary" title="Hızlı Kurs Ara">
+    <i class="icon-search"></i>
+  </button>
+  <button class="fab secondary" title="Yardım">
+    <i class="icon-help"></i>
+  </button>
+</div>

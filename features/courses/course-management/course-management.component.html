@@ -1,0 +1,301 @@
+<div class="course-management-container">
+  <!-- Header -->
+  <div class="management-header">
+    <h2>Kurs ve Öğrenci Yönetimi</h2>
+    <button class="btn btn-primary" (click)="toggleCourseForm()">
+      <i class="fas fa-plus"></i> Yeni Kurs Oluştur
+    </button>
+  </div>
+
+  <!-- Course Creation Form -->
+  <div class="course-form-panel" *ngIf="showCourseForm">
+    <div class="panel-header">
+      <h3>Yeni Kurs Oluştur</h3>
+      <button class="btn btn-outline-secondary" (click)="closePanels()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="courseForm" (ngSubmit)="onSubmitCourse()">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="title">Kurs Adı *</label>
+            <input type="text" id="title" class="form-control" formControlName="title" 
+                   placeholder="Örn: Angular Temelleri">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="category">Kategori *</label>
+            <select id="category" class="form-control" formControlName="category">
+              <option value="">Kategori Seçin</option>
+              <option value="Programming">Programlama</option>
+              <option value="Design">Tasarım</option>
+              <option value="Business">İş Dünyası</option>
+              <option value="Marketing">Pazarlama</option>
+              <option value="Management">Yönetim</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Açıklama *</label>
+        <textarea id="description" class="form-control" rows="3" formControlName="description"
+                  placeholder="Kurs hakkında detaylı açıklama..."></textarea>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="difficultyLevel">Zorluk Seviyesi *</label>
+            <select id="difficultyLevel" class="form-control" formControlName="difficultyLevel">
+              <option *ngFor="let level of difficultyLevels" [value]="level">
+                {{level | titlecase}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="estimatedDuration">Tahmini Süre (dk) *</label>
+            <input type="number" id="estimatedDuration" class="form-control" 
+                   formControlName="estimatedDuration" placeholder="60">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="certificateType">Sertifika Türü *</label>
+            <select id="certificateType" class="form-control" formControlName="certificateType">
+              <option *ngFor="let type of certificateTypes" [value]="type">
+                {{type | titlecase}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="prerequisites">Ön Koşullar</label>
+            <input type="text" id="prerequisites" class="form-control" formControlName="prerequisites"
+                   placeholder="Kurs ID'leri virgülle ayırın">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="tags">Etiketler</label>
+            <input type="text" id="tags" class="form-control" formControlName="tags"
+                   placeholder="Angular, TypeScript, Frontend">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="maxStudents">Maksimum Öğrenci</label>
+            <input type="number" id="maxStudents" class="form-control" formControlName="maxStudents"
+                   placeholder="30">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-check mt-4">
+            <input type="checkbox" id="allowSelfEnrollment" class="form-check-input" 
+                   formControlName="allowSelfEnrollment">
+            <label class="form-check-label" for="allowSelfEnrollment">
+              Kendi kendine kayıt izni
+            </label>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-check mt-4">
+            <input type="checkbox" id="requiresApproval" class="form-check-input" 
+                   formControlName="requiresApproval">
+            <label class="form-check-label" for="requiresApproval">
+              Onay gereksinimi
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="courseForm.invalid">
+          <i class="fas fa-save"></i> Kursu Oluştur
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="closePanels()">
+          İptal
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Courses List -->
+  <div class="courses-grid">
+    <div class="course-card" *ngFor="let course of courses" (click)="selectCourse(course)">
+      <div class="card-header">
+        <h4>{{course.title}}</h4>
+        <span class="badge badge-{{getDifficultyColor(course.difficultyLevel)}}">
+          {{course.difficultyLevel | titlecase}}
+        </span>
+      </div>
+      <div class="card-body">
+        <p class="course-description">{{course.description}}</p>
+        <div class="course-meta">
+          <span class="meta-item">
+            <i class="fas fa-clock"></i> {{formatDuration(course.estimatedDuration)}}
+          </span>
+          <span class="meta-item">
+            <i class="fas fa-users"></i> {{course.stats.enrolledStudents}} öğrenci
+          </span>
+          <span class="meta-item">
+            <i class="fas fa-certificate"></i> {{course.certificateType | titlecase}}
+          </span>
+        </div>
+        <div class="course-tags">
+          <span class="tag" *ngFor="let tag of course.tags">{{tag}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student Enrollment Panel -->
+  <div class="enrollment-panel" *ngIf="showEnrollmentPanel && selectedCourse">
+    <div class="panel-header">
+      <h3>{{selectedCourse.title}} - Öğrenci Yönetimi</h3>
+      <button class="btn btn-outline-secondary" (click)="closePanels()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-navigation">
+      <button class="tab-button" [class.active]="activeTab === 'enroll'" 
+              (click)="setActiveTab('enroll')">
+        Öğrenci Kaydı
+      </button>
+      <button class="tab-button" [class.active]="activeTab === 'invitations'" 
+              (click)="setActiveTab('invitations')">
+        Davet Sistemi
+      </button>
+    </div>
+
+    <!-- Student Enrollment Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'enroll'">
+      <form [formGroup]="enrollmentForm" (ngSubmit)="onSubmitEnrollment()">
+        <div class="form-group">
+          <label for="enrollmentMethod">Kayıt Yöntemi</label>
+          <select id="enrollmentMethod" class="form-control" formControlName="enrollmentMethod">
+            <option value="manual">Manuel Kayıt</option>
+            <option value="csv_upload">CSV ile Toplu Kayıt</option>
+            <option value="department_auto">Departman Bazlı Otomatik</option>
+          </select>
+        </div>
+
+        <!-- Manual Enrollment -->
+        <div *ngIf="enrollmentForm.get('enrollmentMethod')?.value === 'manual'">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="studentEmail">E-posta *</label>
+                <input type="email" id="studentEmail" class="form-control" 
+                       formControlName="studentEmail" placeholder="student@email.com">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="studentFirstName">Ad *</label>
+                <input type="text" id="studentFirstName" class="form-control" 
+                       formControlName="studentFirstName" placeholder="Ad">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="studentLastName">Soyad *</label>
+                <input type="text" id="studentLastName" class="form-control" 
+                       formControlName="studentLastName" placeholder="Soyad">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSV Upload -->
+        <div *ngIf="enrollmentForm.get('enrollmentMethod')?.value === 'csv_upload'">
+          <div class="form-group">
+            <label for="csvData">CSV Verisi</label>
+            <textarea id="csvData" class="form-control" rows="6" formControlName="csvData"
+                      placeholder="email,firstName,lastName,departmentId
+student1@email.com,Ahmet,Yılmaz,dep-1
+student2@email.com,Ayşe,Kaya,dep-2"></textarea>
+            <small class="form-text text-muted">
+              Format: email,firstName,lastName,departmentId (başlık satırı ile)
+            </small>
+          </div>
+        </div>
+
+        <!-- Department Auto Enrollment -->
+        <div *ngIf="enrollmentForm.get('enrollmentMethod')?.value === 'department_auto'">
+          <div class="form-group">
+            <label for="departmentId">Departman</label>
+            <select id="departmentId" class="form-control" formControlName="departmentId">
+              <option value="">Departman Seçin</option>
+              <option value="dep-1">Mühendislik</option>
+              <option value="dep-2">Pazarlama</option>
+              <option value="dep-3">Satış</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="enrollmentForm.invalid">
+          <i class="fas fa-user-plus"></i> Öğrenci Kaydet
+        </button>
+      </form>
+    </div>
+
+    <!-- Invitations Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'invitations'">
+      <div class="invitation-controls">
+        <button class="btn btn-success" (click)="generateInvitation()">
+          <i class="fas fa-envelope"></i> Genel Davet Kodu Oluştur
+        </button>
+      </div>
+
+      <div class="invitations-list" *ngIf="invitations.length > 0">
+        <h5>Mevcut Davetler</h5>
+        <div class="invitation-item" *ngFor="let invitation of invitations">
+          <div class="invitation-info">
+            <strong>{{invitation.invitationCode}}</strong>
+            <span class="status-badge status-{{invitation.status}}">
+              {{invitation.status | titlecase}}
+            </span>
+          </div>
+          <div class="invitation-meta">
+            <small>
+              Oluşturulma: {{invitation.createdAt | date:'short'}} | 
+              Son Kullanma: {{invitation.expiresAt | date:'short'}}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="invitation-info-panel">
+        <h5>Davet Sistemi Nasıl Çalışır?</h5>
+        <ul>
+          <li>Davet kodu oluşturduğunuzda sistem otomatik olarak bir kod üretir</li>
+          <li>Bu kod localStorage'da saklanır (demo amaçlı)</li>
+          <li>Öğrenciler bu kodu kullanarak kursa kayıt olabilir</li>
+          <li>Kabul edilen davetler otomatik olarak silinir</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="courses.length === 0">
+    <i class="fas fa-graduation-cap fa-3x"></i>
+    <h3>Henüz Kurs Yok</h3>
+    <p>İlk kursunuzu oluşturmak için "Yeni Kurs Oluştur" butonuna tıklayın.</p>
+  </div>
+</div>
